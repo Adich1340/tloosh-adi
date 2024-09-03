@@ -1,12 +1,12 @@
 import { useState } from "react";
 import ReactDOM from "react-dom/client";
-import ConfirmDialog from "./confirmDialog";
+import { ConfirmDialog } from "./confirmDialog";
 
 interface createConfirmDialogProps {
   title: string;
   content: string;
-  onOk: Function;
-  onCancel: Function;
+  onCancel: () => void;
+  onOk: () => void;
 }
 
 export const createConfirmDialog = ({

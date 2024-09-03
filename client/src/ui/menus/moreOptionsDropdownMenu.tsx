@@ -1,18 +1,19 @@
 import { ListItem, ListItemText, MenuItem } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import React, { ReactElement, useState } from "react";
-import ConfirmDialog from "../dialogs/confirmDialog";
 import { createConfirmDialog } from "../dialogs/createDialogs";
 
 interface MoreOptionsDropdownMenuProps {
   open: boolean;
-  anchorEl: any;
-  menuOptions: {
-    title: string;
-    leftItem?: ReactElement;
-    click: Function;
-  }[];
+  anchorEl: HTMLButtonElement | null;
+  menuOptions: menuOptionsInterface[];
   onClose: () => void;
+}
+
+export interface menuOptionsInterface {
+  title: string;
+  leftItem?: ReactElement;
+  click: Function;
 }
 
 export const MoreOptionsDropdownMenu: React.FC<
@@ -76,4 +77,3 @@ export const MoreOptionsDropdownMenu: React.FC<
     </Menu>
   );
 };
-

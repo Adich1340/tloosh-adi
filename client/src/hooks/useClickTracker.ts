@@ -8,13 +8,11 @@ interface ClickTrackerProps {
 
 export const useClickTracker = ({ ref, userId }: ClickTrackerProps) => {
   useEffect(() => {
-    const handleClick = async (e: any) => {
-      console.log(" adi 222 ", e?.srcElement?.ariaLabel);
-      if (e?.srcElement?.ariaLabel) {
-        const res = await trackerService.trackAction(
-          userId,
-          e.srcElement.ariaLabel
-        );
+    const handleClick = async (e: MouseEvent) => {
+      // Cast e.target to HTMLElement to access ariaLabel
+      const target = e.target as HTMLElement;
+      if (target?.ariaLabel) {
+        const res = await trackerService.trackAction(userId, target.ariaLabel);
       }
     };
 

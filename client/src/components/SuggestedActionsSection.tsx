@@ -1,23 +1,8 @@
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { offersService } from "../services/offersService";
+import { offerType, offersService } from "../services/offersService";
 import { SuggestedActionItem } from "../ui/data-displays/suggestedActionItem";
-
-type offerType = {
-  id: number;
-  name: string;
-  price: string;
-  description: string;
-  timestamp: Date;
-  affiliant: affiliantType;
-};
-
-type affiliantType = {
-  id: number;
-  name: string;
-  link: string;
-};
 
 export const SuggestedActionsSection: React.FC = () => {
   const [user, setUser] = useState<number>(Math.ceil(Math.random() * 4));
@@ -31,9 +16,16 @@ export const SuggestedActionsSection: React.FC = () => {
   }, [user]);
 
   const fetchOffers = async (user: number) => {
-    const res = await offersService.getAllOffers(user);
-    setOffers(res);
-    setLoading(false);
+    try {
+      const res = await offersService.getAllOffers(user);
+      if (!res) {
+        throw new Error("Error: could not get all offers");
+      }
+      setOffers(res);
+      setLoading(false);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   if (loading) {
@@ -45,15 +37,29 @@ export const SuggestedActionsSection: React.FC = () => {
   }
 
   const hideAffiliant = async (userId: number, affiliantId: number) => {
-    await offersService.hideAffiliant(userId, affiliantId);
-    const res = await offersService.getAllOffers(userId);
-    setOffers(res);
+    try {
+      await offersService.hideAffiliant(userId, affiliantId);
+      const res = await offersService.getAllOffers(userId);
+      if (!res) {
+        throw new Error("Error: could not hide this offer");
+      }
+      setOffers(res);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const hideOffer = async (userId: number, offerId: number) => {
-    await offersService.hideOffer(userId, offerId);
-    const res = await offersService.getAllOffers(userId);
-    setOffers(res);
+    try {
+      await offersService.hideOffer(userId, offerId);
+      const res = await offersService.getAllOffers(userId);
+      if (!res) {
+        throw new Error("Error: could not hide this affiliant");
+      }
+      setOffers(res);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleItemClick = (id: number) => {
@@ -63,8 +69,7 @@ export const SuggestedActionsSection: React.FC = () => {
   return (
     <SuggestedActions>
       <>
-        {Object.keys(offers).map((offerKey: any, idx: number) => {
-          let offerItem = offers[offerKey];
+        {offers.map((offerItem: offerType, idx: number) => {
           let affiliantItem = offerItem.affiliant;
           let isExpanded = expandedId === offerItem.id;
 

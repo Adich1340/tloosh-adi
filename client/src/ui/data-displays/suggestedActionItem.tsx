@@ -2,7 +2,7 @@ import { animated, config, useSpring } from "@react-spring/web";
 import { FC, MutableRefObject, RefObject, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import { CtaButton } from "../buttons/cta-button";
-import { MoreOptionsDropdownMenu } from "../menus/moreOptionsDropdownMenu";
+import { MoreOptionsDropdownMenu, menuOptionsInterface } from "../menus/moreOptionsDropdownMenu";
 // import { Action } from "../../../types";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
@@ -12,7 +12,7 @@ interface SuggestedActionItemProps {
   action: any; //Action
   isExpanded: boolean;
   handleClick: (id: number) => void;
-  menuOptions: any;
+  menuOptions: menuOptionsInterface[];
   userId: number;
 }
 
@@ -23,7 +23,7 @@ export const SuggestedActionItem: FC<SuggestedActionItemProps> = ({
   menuOptions,
   userId,
 }) => {
-  const optionsRef = useRef<RefObject<HTMLElement> | null | any>(null);
+  const optionsRef = useRef<HTMLButtonElement | null>(null);
   const [showMoreOptionsMenu, setShowMoreOptionsMenu] =
     useState<boolean>(false);
 
