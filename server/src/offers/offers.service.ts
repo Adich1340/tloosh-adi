@@ -76,8 +76,10 @@ export class OffersService {
           offer,
         });
       }
+      return true;
     } catch (e) {
       console.error('hide offer error: ', e);
+      return false;
     }
   }
 
@@ -94,8 +96,10 @@ export class OffersService {
           affiliant,
         });
       }
+      return true;
     } catch (e) {
       console.error('hide affiliant error: ', e);
+      return false;
     }
   }
 }
